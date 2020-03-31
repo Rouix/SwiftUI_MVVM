@@ -7,7 +7,16 @@
 //
 
 import Foundation
+import Combine
 
 class ContentViewModel: ObservableObject {
+    
+    //if need pass data
+    let openOrders = PassthroughSubject<Void, Never>()
+    
     init() {}
+    
+    func openMyOrders() {
+        self.openOrders.send(())
+    }
 }

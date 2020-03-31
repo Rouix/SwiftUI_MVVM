@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct MenuContent: View {
+    var newOrders: Int = 0
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
@@ -35,15 +37,21 @@ struct MenuContent: View {
                 .foregroundColor(Color.black)
             }.padding(.bottom, 22)
             
-
-            NavigationLink(destination: MyOrders(viewModel: .init())) {
+            Button(action: {
+               //go to another view
+            }) {
                 Image("orders")
                 .frame(width: 22.0, height: 22.0)
                 
                 Text("Мои заказы")
                 .foregroundColor(Color.black)
+                
+                Spacer()
+                Text(self.newOrders > 0 ? String(self.newOrders) : "")
+                .foregroundColor(Color.red)
+                
             }.padding(.bottom, 22)
-            
+                        
             Button(action: {
                //go to another view
             }) {
@@ -52,8 +60,8 @@ struct MenuContent: View {
                 
                 Text("История заказов")
                 .foregroundColor(Color.black)
-            }
-
+            }.padding(.bottom, 22)
+            
             Spacer()
         }
             .padding()

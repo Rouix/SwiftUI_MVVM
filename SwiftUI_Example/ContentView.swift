@@ -25,7 +25,7 @@ struct ContentView: View {
         return NavigationView {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    MainView(showMenu: self.$showMenu)
+                    MainView(showMenu: self.$showMenu, viewModel: self.viewModel)
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .offset(x: self.showMenu ? geometry.size.width*0.9 : 0)
                         .disabled(self.showMenu ? true : false)
@@ -48,6 +48,50 @@ struct ContentView: View {
                             .imageScale(.large)
                     }
                 ))
+        }
+    }
+
+}
+
+struct MainView: View {
+    @Binding var showMenu: Bool
+    @State var isModal: Bool = false
+    @ObservedObject var viewModel: ContentViewModel
+    
+    var body: some View {
+        ScrollView(Axis.Set.vertical) {
+            MapView()
+                .edgesIgnoringSafeArea(.top)
+                .frame(height: 400)
+            
+            VStack(alignment: .center) {
+                CircleImageView()
+                VStack {
+                    NavigationLink(destination: MyOrders(viewModel: .init())) {
+                        Text("go to orders - navigation Link")
+                    }
+                    
+                    Button("go to orders (modal)") {
+                         self.isModal = true
+                     }.sheet(isPresented: $isModal, content: {
+                        MyOrders(viewModel: .init())
+                     })
+ 
+                    Button(action: {
+                        self.viewModel.openMyOrders()
+                    }) {
+                        Text("go to orders via coordinator")
+                    }
+                    
+                    Text("-19")
+                        .foregroundColor(.blue)
+                        .font(.largeTitle)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    
+                }
+            }
+            .offset(x: 0, y: -100)
         }
     }
 

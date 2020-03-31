@@ -26,6 +26,7 @@ struct OrderCell: View {
                      Text(self.item.carNumber)
                          .font(.system(size: 16))
                  }.padding(.leading, 36)
+                    .padding(.trailing, 16)
              }
              
              HStack() {
@@ -79,17 +80,35 @@ struct OrderCell: View {
                  .foregroundColor(.gray)
                  .padding(.bottom, 4)
              
-             Text(self.item.status)
-                 .font(.system(size: 20))
-                 .bold()
-                 .padding(.bottom, 8)
-                 .foregroundColor(.green)
+            HStack() {
+                Text(self.item.status)
+                    .font(.system(size: 20))
+                    .bold()
+                    .padding(.bottom, 8)
+                    .foregroundColor(.green)
+                
+                Spacer()
+                Button(action: {
+
+                }) {
+                    Text("Оценить")
+                        .font(.system(size: 17))
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 10)
+                        .cornerRadius(10)
+                        .foregroundColor(.blue)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.blue, lineWidth: 1)
+                        )
+                }
+                    .padding(10)
+            }
+
              
          }   .padding(.leading, 16)
              .padding(.top, 16)
              .cornerRadius(8.0)
-             .background(Color.red)
-         
      }
 
 }
@@ -97,5 +116,6 @@ struct OrderCell: View {
 struct OrderCell_Previews: PreviewProvider {
     static var previews: some View {
         OrderCell(item: Order(id: 1, name: "", carNumber: "", rating: nil, cost: 0, date: Date(), workType: "", deliveryAddress: "", status: ""))
+        .previewLayout(.fixed(width: 300, height: 350))
     }
 }

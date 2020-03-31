@@ -11,26 +11,34 @@ import SwiftUI
 struct MyOrders: View {
     @ObservedObject var viewModel: OrdersViewModel
     
+    init(viewModel: OrdersViewModel){
+        UITableView.appearance().backgroundColor = .clear
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                Image("background")
-                     .resizable()
-                     .aspectRatio(geometry.size, contentMode: .fill)
-                     .edgesIgnoringSafeArea(.all)
-                
-                List() {
-                    ForEach(self.viewModel.items) { item in
-                        OrderCell(item: item)
-                            .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
-                        
+        NavigationView {
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Image("background")
+                         .resizable()
+                         .aspectRatio(geometry.size, contentMode: .fill)
+                         .edgesIgnoringSafeArea(.all)
+                    
+                    List() {
+                        ForEach(self.viewModel.items) { item in
+                            OrderCell(item: item)
+                                .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
+                            
+                        }
                     }
-                }.background(Color.clear)
-            
+                }
             }
-        }
-        .navigationBarTitle(Text("История заказов"))
-        
+            .navigationBarTitle(Text("История заказов"), displayMode: .inline)
+            .navigationBarItems(leading: Button(action: viewModel.backAction) {
+                Text("Назад")
+            })
+    }
     }
 }
 
