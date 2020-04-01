@@ -62,6 +62,10 @@ struct MenuContent: View {
                 .foregroundColor(Color.black)
             }.padding(.bottom, 22)
             
+            NavigationLink(destination: PostListView()) {
+                Text("Open Posts")
+            }
+            
             Spacer()
         }
             .padding()
