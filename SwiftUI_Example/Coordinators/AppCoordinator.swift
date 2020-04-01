@@ -10,16 +10,23 @@ import Foundation
 import SwiftUI
 import Combine
 
-class AppCoordinator: Coordinator, CoordinatorProtocol {
+class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     let window: UIWindow
     private var openOrdersPass: AnyCancellable?
     private var pressBack : AnyCancellable?
     
     init(window: UIWindow) {
         self.window = window
+        self.dependencies = AppDependency()
         super.init()
     }
 
+    var dependencies: AppDependency? {
+        didSet {
+            updateChildCoordinatorDependencies()
+        }
+    }
+    
     var navigationController: UINavigationController! {
         window.rootViewController as? UINavigationController
     }
@@ -35,7 +42,12 @@ class AppCoordinator: Coordinator, CoordinatorProtocol {
             .sink { [weak self] in
             self?.showMyOrders()
         }
-                
+         
+        self.openOrdersPass = viewModel.goToPosts
+            .sink { [weak self] in
+            self?.showPosts()
+        }
+        
         let view = ContentView(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         let nav = UINavigationController(rootViewController: controller)
@@ -52,6 +64,19 @@ class AppCoordinator: Coordinator, CoordinatorProtocol {
         }
         
         let view = MyOrders(viewModel: viewModel)
+        let controller = UIHostingController(rootView: view)
+        navigationController.pushViewController(controller, animated: true)
+    }
+    
+    private func showPosts() {
+        let viewModel = PostViewModel(dependencies: self.dependencies!)
+    
+        self.pressBack = viewModel.didNavigateBack
+            .sink { [weak self] in
+            self?.navigationController.popViewController(animated: true)
+        }
+        
+        let view = PostListView(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         navigationController.pushViewController(controller, animated: true)
     }

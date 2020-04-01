@@ -11,16 +11,21 @@ import Combine
 
 class PostViewModel:ObservableObject {
     
-    private let service = PostService()
+    typealias Dependencies = HasPostService
+    public var dependencies:Dependencies!
+    
     private var cancellables: [AnyCancellable] = []
     private let errorSubject = PassthroughSubject<HTTPError, Never>()
+    let didNavigateBack = PassthroughSubject<Void, Never>()
     
     @Published var posts = [Post]()
     @Published var errorMessage = ""
     @Published var isErrorShown = false
     
-    init() {
-        let responsePublisher = self.service.request()
+    init(dependencies:Dependencies) {
+        self.dependencies = dependencies
+        
+        let responsePublisher = self.dependencies.postService.request()
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .finished: print("successful")
@@ -53,5 +58,9 @@ class PostViewModel:ObservableObject {
              errorCancellable,
              errorStream
          ]
+    }
+    
+    func backAction() {
+        self.didNavigateBack.send(())
     }
 }

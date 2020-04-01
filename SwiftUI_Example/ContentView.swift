@@ -21,7 +21,7 @@ struct ContentView: View {
                         .offset(x: self.showMenu ? geometry.size.width*0.9 : 0)
                         .disabled(self.showMenu ? true : false)
                     if self.showMenu {
-                        MenuContent()
+                        MenuContent(viewModel: self.viewModel)
                             .frame(width: geometry.size.width/0.9)
                             .transition(.move(edge: .leading))
                     }

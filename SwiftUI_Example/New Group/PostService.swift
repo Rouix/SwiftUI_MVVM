@@ -26,3 +26,23 @@ class PostService {
             .eraseToAnyPublisher()
     }
 }
+
+
+protocol HasPostService {
+    var postService: PostService! { get }
+}
+
+extension AppDependency:HasPostService {
+    private static var postService:PostService!
+    
+    var postService: PostService! {
+        if let shared = AppDependency.postService {
+            return shared
+        } else {
+            let result = PostService()
+            AppDependency.postService = result
+            return result
+        }
+        
+    }
+}

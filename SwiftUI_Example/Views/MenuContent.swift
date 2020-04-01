@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MenuContent: View {
     var newOrders: Int = 0
+    @ObservedObject var viewModel: ContentViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -62,8 +63,10 @@ struct MenuContent: View {
                 .foregroundColor(Color.black)
             }.padding(.bottom, 22)
             
-            NavigationLink(destination: PostListView()) {
-                Text("Open Posts")
+            Button(action: {
+                self.viewModel.openPosts()
+            }) {
+                Text("Открыть посты")
             }
             
             Spacer()
@@ -76,6 +79,6 @@ struct MenuContent: View {
 
 struct MenuContent_Previews: PreviewProvider {
     static var previews: some View {
-        MenuContent()
+        MenuContent(viewModel: .init())
     }
 }

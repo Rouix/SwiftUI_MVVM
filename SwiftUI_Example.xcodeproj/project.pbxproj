@@ -24,6 +24,7 @@
 		3C878A1A2434919C0061F8BB /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A192434919C0061F8BB /* PostViewModel.swift */; };
 		3C878A1C2434921B0061F8BB /* PostListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A1B2434921B0061F8BB /* PostListView.swift */; };
 		3C878A1E243493770061F8BB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A1D243493770061F8BB /* PostService.swift */; };
+		3C878A202434B4430061F8BB /* NeedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A1F2434B4430061F8BB /* NeedDependency.swift */; };
 		3CE1159B24334C4600D54779 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE1159A24334C4600D54779 /* AppCoordinator.swift */; };
 		3CE1159E24334CBA00D54779 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE1159D24334CBA00D54779 /* Coordinator.swift */; };
 		3CE115A224336F0400D54779 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE115A124336F0400D54779 /* Order.swift */; };
@@ -49,6 +50,7 @@
 		3C878A192434919C0061F8BB /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		3C878A1B2434921B0061F8BB /* PostListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListView.swift; sourceTree = "<group>"; };
 		3C878A1D243493770061F8BB /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		3C878A1F2434B4430061F8BB /* NeedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeedDependency.swift; sourceTree = "<group>"; };
 		3CE1159A24334C4600D54779 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3CE1159D24334CBA00D54779 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		3CE115A124336F0400D54779 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -90,8 +92,8 @@
 				3C4799C32433054700E0C50E /* Orders */,
 				3C4799A92433044F00E0C50E /* AppDelegate.swift */,
 				3C4799AB2433044F00E0C50E /* SceneDelegate.swift */,
-				3C4799AD2433044F00E0C50E /* ContentView.swift */,
 				3C4799C42433056000E0C50E /* ContentViewModel.swift */,
+				3C4799AD2433044F00E0C50E /* ContentView.swift */,
 				3C4799AF2433045000E0C50E /* Assets.xcassets */,
 				3C4799B42433045000E0C50E /* LaunchScreen.storyboard */,
 				3C4799B72433045000E0C50E /* Info.plist */,
@@ -135,6 +137,7 @@
 			children = (
 				3CE1159A24334C4600D54779 /* AppCoordinator.swift */,
 				3CE1159D24334CBA00D54779 /* Coordinator.swift */,
+				3C878A1F2434B4430061F8BB /* NeedDependency.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			files = (
 				3C878A1A2434919C0061F8BB /* PostViewModel.swift in Sources */,
 				3C4799C7243305C400E0C50E /* CircleImageView.swift in Sources */,
+				3C878A202434B4430061F8BB /* NeedDependency.swift in Sources */,
 				3C4799AA2433044F00E0C50E /* AppDelegate.swift in Sources */,
 				3CE1159E24334CBA00D54779 /* Coordinator.swift in Sources */,
 				3CE1159B24334C4600D54779 /* AppCoordinator.swift in Sources */,
