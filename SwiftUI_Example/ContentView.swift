@@ -13,15 +13,6 @@ struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
 
     var body: some View {
-        let drag = DragGesture()
-            .onEnded {
-                if $0.translation.width < -100 {
-                    withAnimation {
-                        self.showMenu = false
-                    }
-                }
-            }
-        
         return NavigationView {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
@@ -35,7 +26,19 @@ struct ContentView: View {
                             .transition(.move(edge: .leading))
                     }
                 }
-                    .gesture(drag)
+                .gesture(
+                    DragGesture()
+                        .onChanged({ value in
+                            //self.showMenu.toggle()
+                        })
+                        .onEnded({ value in
+                            if value.translation.width < -100 {
+                                withAnimation {
+                                    self.showMenu = false
+                                }
+                            }
+
+                        }))
             }
                 .navigationBarTitle("Side Menu", displayMode: .inline)
                 .navigationBarItems(leading: (
@@ -88,7 +91,18 @@ struct MainView: View {
                         .font(.largeTitle)
                         .multilineTextAlignment(.center)
                         .padding()
+
+                    Button(action: {
+                        self.viewModel.startTimer()
+                    }) {
+                        Text("Start timer: \(self.viewModel.times)")
+                    }
                     
+                    Button(action: {
+                        self.viewModel.scubcribeToNotifications()
+                    }) {
+                        Text("subscribe to notifications")
+                    }.foregroundColor(self.viewModel.buttonColor)
                 }
             }
             .offset(x: 0, y: -100)
