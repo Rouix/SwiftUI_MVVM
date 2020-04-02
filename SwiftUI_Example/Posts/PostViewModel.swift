@@ -14,7 +14,7 @@ class PostViewModel:ObservableObject {
     typealias Dependencies = HasPostService
     public var dependencies:Dependencies!
     
-    private var cancellables: [AnyCancellable] = []
+    private var cancellables: Set<AnyCancellable> = []
     private let errorSubject = PassthroughSubject<HTTPError, Never>()
     let didNavigateBack = PassthroughSubject<Void, Never>()
     
@@ -25,7 +25,7 @@ class PostViewModel:ObservableObject {
     init(dependencies:Dependencies) {
         self.dependencies = dependencies
         
-        let responsePublisher = self.dependencies.postService.request()
+        self.dependencies.postService.request()
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .finished: print("successful")
@@ -34,14 +34,13 @@ class PostViewModel:ObservableObject {
                 }
             }, receiveValue: { (posts) in
                 self.posts = posts
-            })
+            }).store(in: &cancellables)
         
-        self.cancellables += [responsePublisher]
         self.bindOutputs()
     }
     
     private func bindOutputs() {
-        let errorCancellable = errorSubject
+        errorSubject
             .map { error -> String in
                 switch error {
                 case .statusCode: return "network error"
@@ -49,15 +48,13 @@ class PostViewModel:ObservableObject {
                 }
             }
             .assign(to: \.errorMessage, on: self)
+            .store(in: &cancellables)
         
-        let errorStream = errorSubject
+        errorSubject
             .map { _ in true }
             .assign(to: \.isErrorShown, on: self)
+            .store(in: &cancellables)
         
-        self.cancellables += [
-             errorCancellable,
-             errorStream
-         ]
     }
     
     func backAction() {

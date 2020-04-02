@@ -17,21 +17,21 @@ extension Notification.Name {
 class ContentViewModel: ObservableObject {
     
     //if need pass data
-    let openOrders = PassthroughSubject<Void, Never>()
-    let goToPosts = PassthroughSubject<Void, Never>()
-    let goToPodcasts = PassthroughSubject<Void, Never>()
+    @Published private(set) var openOrders = PassthroughSubject<Void, Never>()
+    @Published private(set) var goToPosts = PassthroughSubject<Void, Never>()
+    @Published private(set) var goToPodcasts = PassthroughSubject<Void, Never>()
     @Published var times:Int = 0
     @Published var buttonColor = Color.black
-    private var cancellableTimer: AnyCancellable?
-    private var cancellableButtonColor: AnyCancellable?
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     init() {
-        self.cancellableButtonColor = NotificationCenter.Publisher(center: .default, name: .color, object: nil)
-        .sink { notification in
-            if let color = notification.object as? Color {
-                self.buttonColor = color
-            }
-        }
+        NotificationCenter.Publisher(center: .default, name: .color, object: nil)
+            .sink { [weak self] notification in
+                if let color = notification.object as? Color {
+                    self?.buttonColor = color
+                }
+        }.store(in: &cancellables)
         
     }
     
@@ -49,11 +49,11 @@ class ContentViewModel: ObservableObject {
     
     func startTimer() {
         // start automatically
-        self.cancellableTimer = Timer.publish(every: 2, on: .main, in: .default)
+        Timer.publish(every: 2, on: .main, in: .default)
         .autoconnect()
             .sink {_ in
             self.times += 1
-        }
+        }.store(in: &cancellables)
         
         
         // start manually
