@@ -12,15 +12,8 @@ import Combine
 
 class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     let window: UIWindow
-    private var openOrdersPass: AnyCancellable?
-    private var pressBack : AnyCancellable?
+    private var cancellable = [AnyCancellable]()
     
-    init(window: UIWindow) {
-        self.window = window
-        self.dependencies = AppDependency()
-        super.init()
-    }
-
     var dependencies: AppDependency? {
         didSet {
             updateChildCoordinatorDependencies()
@@ -31,6 +24,12 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
         window.rootViewController as? UINavigationController
     }
 
+    init(window: UIWindow) {
+        self.window = window
+        self.dependencies = AppDependency()
+        super.init()
+    }
+    
     func start() {
         self.showMainView()
     }
@@ -38,16 +37,17 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     private func showMainView() {
         let viewModel = ContentViewModel()
 
-        self.openOrdersPass = viewModel.openOrders
+        let openOrdersPass = viewModel.openOrders
             .sink { [weak self] in
             self?.showMyOrders()
         }
          
-        self.openOrdersPass = viewModel.goToPosts
+        let openPosts = viewModel.goToPosts
             .sink { [weak self] in
             self?.showPosts()
         }
         
+        self.cancellable += [openPosts, openOrdersPass]
         let view = ContentView(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         let nav = UINavigationController(rootViewController: controller)
@@ -58,11 +58,11 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     private func showMyOrders() {
         let viewModel = OrdersViewModel()
     
-        self.pressBack = viewModel.didNavigateBack
+        let pressBack = viewModel.didNavigateBack
             .sink { [weak self] in
             self?.navigationController.popViewController(animated: true)
         }
-        
+        self.cancellable += [pressBack]
         let view = MyOrders(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         navigationController.pushViewController(controller, animated: true)
@@ -71,11 +71,11 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     private func showPosts() {
         let viewModel = PostViewModel(dependencies: self.dependencies!)
     
-        self.pressBack = viewModel.didNavigateBack
+        let pressBack = viewModel.didNavigateBack
             .sink { [weak self] in
             self?.navigationController.popViewController(animated: true)
         }
-        
+        self.cancellable += [pressBack]
         let view = PostListView(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         navigationController.pushViewController(controller, animated: true)
