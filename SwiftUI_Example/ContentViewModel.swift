@@ -19,6 +19,7 @@ class ContentViewModel: ObservableObject {
     //if need pass data
     let openOrders = PassthroughSubject<Void, Never>()
     let goToPosts = PassthroughSubject<Void, Never>()
+    let goToPodcasts = PassthroughSubject<Void, Never>()
     @Published var times:Int = 0
     @Published var buttonColor = Color.black
     private var cancellableTimer: AnyCancellable?
@@ -40,6 +41,10 @@ class ContentViewModel: ObservableObject {
     
     func openPosts() {
         self.goToPosts.send(())
+    }
+    
+    func openPodcasts() {
+        self.goToPodcasts.send(())
     }
     
     func startTimer() {

@@ -13,6 +13,7 @@ import Combine
 class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     let window: UIWindow
     private var cancellable = [AnyCancellable]()
+    private let player = PodcastPlayer()
     
     var dependencies: AppDependency? {
         didSet {
@@ -47,7 +48,12 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
             self?.showPosts()
         }
         
-        self.cancellable += [openPosts, openOrdersPass]
+        let openPodcasts = viewModel.goToPodcasts
+            .sink { [weak self] in
+            self?.openPodcasts()
+        }
+        
+        self.cancellable += [openPosts, openOrdersPass, openPodcasts]
         let view = ContentView(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         let nav = UINavigationController(rootViewController: controller)
@@ -70,13 +76,26 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     
     private func showPosts() {
         let viewModel = PostViewModel(dependencies: self.dependencies!)
-    
+        
         let pressBack = viewModel.didNavigateBack
             .sink { [weak self] in
             self?.navigationController.popViewController(animated: true)
         }
         self.cancellable += [pressBack]
         let view = PostListView(viewModel: viewModel)
+        let controller = UIHostingController(rootView: view)
+        navigationController.pushViewController(controller, animated: true)
+    }
+    
+    private func openPodcasts() {
+        let viewModel = PodcastViewModel()
+        
+        let pressBack = viewModel.didNavigateBack
+            .sink { [weak self] in
+            self?.navigationController.popViewController(animated: true)
+        }
+        self.cancellable += [pressBack]
+        let view = PodcastPlayerView(viewModel: viewModel).environmentObject(self.player)
         let controller = UIHostingController(rootView: view)
         navigationController.pushViewController(controller, animated: true)
     }

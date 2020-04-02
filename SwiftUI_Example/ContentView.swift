@@ -11,7 +11,8 @@ import SwiftUI
 struct ContentView: View {
     @State var showMenu = false
     @ObservedObject var viewModel: ContentViewModel
-
+    @State private var newPosition: CGSize = .zero
+    
     var body: some View {
         return NavigationView {
             GeometryReader { geometry in
@@ -27,6 +28,7 @@ struct ContentView: View {
                     }
                 }
                 .gesture(
+                    
                     DragGesture()
                         .onChanged({ value in
                             //self.showMenu.toggle()
@@ -39,6 +41,7 @@ struct ContentView: View {
                             }
 
                         }))
+                //SwipeGesture()
             }
                 .navigationBarTitle("Side Menu", displayMode: .inline)
                 .navigationBarItems(leading: (
@@ -103,12 +106,54 @@ struct MainView: View {
                     }) {
                         Text("subscribe to notifications")
                     }.foregroundColor(self.viewModel.buttonColor)
+                    
+                    Button(action: {
+                        self.viewModel.openPodcasts()
+                    }) {
+                        Text("open podcasts")
+                    }
                 }
             }
             .offset(x: 0, y: -100)
         }
     }
 
+}
+
+
+struct SwipeGesture: UIViewRepresentable {
+    
+    func makeCoordinator() -> SwipeCoordinator {
+        return SwipeCoordinator()
+    }
+    
+    func makeUIView(context: Context) -> UIView {
+        let view = UIView()
+        view.backgroundColor = .clear
+        let left = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.left))
+        let right = UISwipeGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.right))
+        left.direction = .left
+        right.direction = .right
+        
+        view.addGestureRecognizer(left)
+        view.addGestureRecognizer(right)
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {
+        
+    }
+    
+    class SwipeCoordinator : NSObject {
+        
+        @objc func left() {
+            print("left")
+        }
+        
+        @objc func right() {
+            print("right")
+        }
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
