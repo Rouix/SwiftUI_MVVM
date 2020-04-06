@@ -17,9 +17,11 @@ extension Notification.Name {
 class ContentViewModel: ObservableObject {
     
     //if need pass data
-    @Published private(set) var openOrders = PassthroughSubject<Void, Never>()
+    @Published private(set) var goToOrders = PassthroughSubject<Void, Never>()
     @Published private(set) var goToPosts = PassthroughSubject<Void, Never>()
     @Published private(set) var goToPodcasts = PassthroughSubject<Void, Never>()
+    @Published private(set) var didNavigateBack = PassthroughSubject<Void, Never>()
+    
     @Published var times:Int = 0
     @Published var buttonColor = Color.black
     
@@ -36,7 +38,7 @@ class ContentViewModel: ObservableObject {
     }
     
     func openMyOrders() {
-        self.openOrders.send(())
+        self.goToOrders.send(())
     }
     
     func openPosts() {
@@ -45,6 +47,10 @@ class ContentViewModel: ObservableObject {
     
     func openPodcasts() {
         self.goToPodcasts.send(())
+    }
+    
+    func backAction() {
+        self.didNavigateBack.send(())
     }
     
     func startTimer() {
