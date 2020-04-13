@@ -8,11 +8,9 @@
 
 import Foundation
 import Combine
+import Resolver
 
 class PostViewModel:ObservableObject {
-    
-    typealias Dependencies = HasPostService
-    public var dependencies:Dependencies!
     
     private var cancellables: Set<AnyCancellable> = []
     private let errorSubject = PassthroughSubject<HTTPError, Never>()
@@ -22,10 +20,10 @@ class PostViewModel:ObservableObject {
     @Published var errorMessage = ""
     @Published var isErrorShown = false
     
-    init(dependencies:Dependencies) {
-        self.dependencies = dependencies
-        
-        self.dependencies.postService.request()
+    @Injected var postService: PostService
+    
+    init() {
+        self.postService.request()
             .sink(receiveCompletion: { [weak self] (completion) in
                 switch completion {
                 case .finished: print("successful")

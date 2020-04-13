@@ -9,6 +9,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import Resolver
 
 class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     let window: UIWindow
@@ -29,12 +30,24 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
         self.window = window
         self.dependencies = AppDependency()
         super.init()
+        
+        Resolver.register { PostService() as PostService }
+        Resolver.register { PostViewModel() }
     }
     
     func start() {
         self.showMainView()
+        self.showAlignmentGuides()
     }
 
+    private func showAlignmentGuides() {
+        let view = AlignmentView()
+        let controller = UIHostingController(rootView: view)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.navigationBar.isHidden = true
+        window.rootViewController = nav
+    }
+    
     private func showMainView() {
         let viewModel = ContentViewModel()
 
@@ -80,7 +93,7 @@ class AppCoordinator: Coordinator, CoordinatorProtocol, NeedsDependency {
     }
     
     private func openPosts() {
-        let viewModel = PostViewModel(dependencies: self.dependencies!)
+        let viewModel = PostViewModel()
         
         let pressBack = viewModel.didNavigateBack
             .sink { [weak self] in

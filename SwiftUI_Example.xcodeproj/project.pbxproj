@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,8 @@
 		3C5A5A402435F8AC008B60A9 /* PodcastPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5A5A3F2435F8AC008B60A9 /* PodcastPlayer.swift */; };
 		3C5A5A422435F8CE008B60A9 /* PodcastPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5A5A412435F8CE008B60A9 /* PodcastPlayerView.swift */; };
 		3C5A5A4424360982008B60A9 /* PodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5A5A4324360982008B60A9 /* PodcastViewModel.swift */; };
+		3C78E6D62444470F00503E6C /* Resolver in Frameworks */ = {isa = PBXBuildFile; productRef = 3C78E6D52444470F00503E6C /* Resolver */; };
+		3C78E6D82444802200503E6C /* AlignmentGuides.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C78E6D72444802200503E6C /* AlignmentGuides.swift */; };
 		3C878A18243491770061F8BB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A17243491770061F8BB /* Post.swift */; };
 		3C878A1A2434919C0061F8BB /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A192434919C0061F8BB /* PostViewModel.swift */; };
 		3C878A1C2434921B0061F8BB /* PostListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C878A1B2434921B0061F8BB /* PostListView.swift */; };
@@ -53,6 +55,7 @@
 		3C5A5A3F2435F8AC008B60A9 /* PodcastPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastPlayer.swift; sourceTree = "<group>"; };
 		3C5A5A412435F8CE008B60A9 /* PodcastPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastPlayerView.swift; sourceTree = "<group>"; };
 		3C5A5A4324360982008B60A9 /* PodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastViewModel.swift; sourceTree = "<group>"; };
+		3C78E6D72444802200503E6C /* AlignmentGuides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignmentGuides.swift; sourceTree = "<group>"; };
 		3C878A17243491770061F8BB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		3C878A192434919C0061F8BB /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		3C878A1B2434921B0061F8BB /* PostListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListView.swift; sourceTree = "<group>"; };
@@ -69,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C78E6D62444470F00503E6C /* Resolver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +111,7 @@
 				3C4799B42433045000E0C50E /* LaunchScreen.storyboard */,
 				3C4799B72433045000E0C50E /* Info.plist */,
 				3C4799B12433045000E0C50E /* Preview Content */,
+				3C78E6D72444802200503E6C /* AlignmentGuides.swift */,
 			);
 			path = SwiftUI_Example;
 			sourceTree = "<group>";
@@ -188,6 +193,9 @@
 			dependencies = (
 			);
 			name = SwiftUI_Example;
+			packageProductDependencies = (
+				3C78E6D52444470F00503E6C /* Resolver */,
+			);
 			productName = SwiftUI_Example;
 			productReference = 3C4799A62433044F00E0C50E /* SwiftUI_Example.app */;
 			productType = "com.apple.product-type.application";
@@ -216,6 +224,9 @@
 				Base,
 			);
 			mainGroup = 3C47999D2433044F00E0C50E;
+			packageReferences = (
+				3C78E6D42444470F00503E6C /* XCRemoteSwiftPackageReference "Resolver" */,
+			);
 			productRefGroup = 3C4799A72433044F00E0C50E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -254,6 +265,7 @@
 				3C878A18243491770061F8BB /* Post.swift in Sources */,
 				3C4799C0243304F400E0C50E /* MapView.swift in Sources */,
 				3C5A5A402435F8AC008B60A9 /* PodcastPlayer.swift in Sources */,
+				3C78E6D82444802200503E6C /* AlignmentGuides.swift in Sources */,
 				3C878A1E243493770061F8BB /* PostService.swift in Sources */,
 				3C4799C52433056000E0C50E /* ContentViewModel.swift in Sources */,
 				3C5A5A422435F8CE008B60A9 /* PodcastPlayerView.swift in Sources */,
@@ -458,6 +470,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3C78E6D42444470F00503E6C /* XCRemoteSwiftPackageReference "Resolver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Resolver";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3C78E6D52444470F00503E6C /* Resolver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C78E6D42444470F00503E6C /* XCRemoteSwiftPackageReference "Resolver" */;
+			productName = Resolver;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3C47999E2433044F00E0C50E /* Project object */;
 }

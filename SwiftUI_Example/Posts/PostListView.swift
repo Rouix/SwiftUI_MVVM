@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import Resolver
 
 struct PostListView: View {
     @ObservedObject var viewModel:PostViewModel
@@ -16,6 +17,7 @@ struct PostListView: View {
         self.viewModel = viewModel
     }
     
+
     var body: some View {
         NavigationView {
                 List() {
@@ -38,6 +40,6 @@ struct PostListView: View {
 
 struct PostListView_Previews: PreviewProvider {
     static var previews: some View {
-        PostListView(viewModel: .init(dependencies: PostService() as! HasPostService))
+        PostListView(viewModel: Resolver.resolve())
     }
 }
